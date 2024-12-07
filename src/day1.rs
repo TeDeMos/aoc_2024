@@ -13,8 +13,8 @@ fn get_values() -> (Vec<u32>, Vec<u32>) {
 
 pub fn day1_a() {
     let (mut left, mut right) = get_values();
-    left.sort();
-    right.sort();
+    left.sort_unstable();
+    right.sort_unstable();
     let result: u32 = left.iter().zip(right.iter()).map(|(l, r)| l.abs_diff(*r)).sum();
     println!("{result}");
 }
