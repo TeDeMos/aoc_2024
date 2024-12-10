@@ -8,8 +8,9 @@ mod day3;
 mod day4;
 mod day5;
 mod day6;
+mod day7;
 mod utils;
 
 use utils::{read_lines, read_string, read_grid_bytes, SplitOnceArr};
 
-fn main() { day6::day6_b() }
+fn main() { day7::day7_b() }
