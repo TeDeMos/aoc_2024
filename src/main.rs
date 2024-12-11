@@ -1,4 +1,4 @@
-#![feature(iter_map_windows, pattern)]
+#![feature(iter_map_windows, let_chains, pattern)]
 #![warn(clippy::pedantic, clippy::nursery)]
 #![allow(dead_code)]
 
@@ -11,8 +11,12 @@ mod day6;
 mod day7;
 mod day8;
 mod day9;
+mod day10;
 mod utils;
 
-use utils::{read_lines, read_string, read_digits, read_grid_bytes, SplitOnceArr, IterPairs};
+use utils::{
+    IterPairs, SplitOnceArr, read_digits, read_grid_bytes, read_grid_digits, read_lines,
+    read_string,
+};
 
-fn main() { day9::day9_b() }
+fn main() { day10::day10_b() }

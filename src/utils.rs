@@ -19,6 +19,14 @@ pub fn read_digits(day: usize) -> Box<[u8]> {
     bytes
 }
 
+pub fn read_grid_digits(day: usize) -> Box<[Box<[u8]>]> {
+    read_lines(day).map(|s| {
+        let mut bytes = s.into_boxed_str().into_boxed_bytes();
+        bytes.iter_mut().for_each(|b| *b -= b'0');
+        bytes
+    }).collect()
+}
+
 pub fn read_grid_bytes(day: usize) -> Box<[Box<[u8]>]> {
     read_lines(day).map(|s| s.into_boxed_str().into_boxed_bytes()).collect()
 }
