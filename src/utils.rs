@@ -1,6 +1,8 @@
+use std::fmt::Debug;
 use std::fs;
 use std::fs::File;
 use std::io::{BufRead as _, BufReader};
+use std::str::FromStr;
 use std::str::pattern::Pattern;
 
 fn get_path(day: usize) -> String {
@@ -12,6 +14,10 @@ pub fn read_lines(day: usize) -> impl Iterator<Item = String> {
 }
 
 pub fn read_string(day: usize) -> String { fs::read_to_string(get_path(day)).unwrap() }
+
+pub fn read_numbers<T: FromStr<Err: Debug>>(day: usize) -> Vec<T> {
+    read_string(day).split_whitespace().map(|s| s.parse::<T>().unwrap()).collect()
+}
 
 pub fn read_digits(day: usize) -> Box<[u8]> { 
     let mut bytes = read_string(day).into_boxed_str().into_boxed_bytes();

@@ -12,11 +12,12 @@ mod day7;
 mod day8;
 mod day9;
 mod day10;
+mod day11;
 mod utils;
 
 use utils::{
     IterPairs, SplitOnceArr, read_digits, read_grid_bytes, read_grid_digits, read_lines,
-    read_string,
+    read_string, read_numbers
 };
 
-fn main() { day10::day10_b() }
+fn main() { day11::day11_b() }
