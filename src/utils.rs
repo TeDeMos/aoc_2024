@@ -2,6 +2,7 @@ use std::fmt::Debug;
 use std::fs;
 use std::fs::File;
 use std::io::{BufRead as _, BufReader};
+use std::ops::{AddAssign, Mul, Sub};
 use std::str::FromStr;
 use std::str::pattern::Pattern;
 
@@ -19,18 +20,20 @@ pub fn read_numbers<T: FromStr<Err: Debug>>(day: usize) -> Vec<T> {
     read_string(day).split_whitespace().map(|s| s.parse::<T>().unwrap()).collect()
 }
 
-pub fn read_digits(day: usize) -> Box<[u8]> { 
+pub fn read_digits(day: usize) -> Box<[u8]> {
     let mut bytes = read_string(day).into_boxed_str().into_boxed_bytes();
     bytes.iter_mut().for_each(|b| *b -= b'0');
     bytes
 }
 
 pub fn read_grid_digits(day: usize) -> Box<[Box<[u8]>]> {
-    read_lines(day).map(|s| {
-        let mut bytes = s.into_boxed_str().into_boxed_bytes();
-        bytes.iter_mut().for_each(|b| *b -= b'0');
-        bytes
-    }).collect()
+    read_lines(day)
+        .map(|s| {
+            let mut bytes = s.into_boxed_str().into_boxed_bytes();
+            bytes.iter_mut().for_each(|b| *b -= b'0');
+            bytes
+        })
+        .collect()
 }
 
 pub fn read_grid_bytes(day: usize) -> Box<[Box<[u8]>]> {
@@ -64,5 +67,42 @@ impl<T> IterPairs for Vec<T> {
 
     fn iter_pairs(&self) -> impl Iterator<Item = (&T, &T)> {
         self.iter().enumerate().flat_map(|(i, x)| self[i + 1..].iter().map(move |y| (x, y)))
+    }
+}
+
+pub trait IntDivide<T = Self> {
+    type Output;
+
+    fn int_divide(self, rhs: T) -> Option<Self::Output>;
+}
+
+impl IntDivide for i64 {
+    type Output = Self;
+
+    fn int_divide(self, rhs: Self) -> Option<Self::Output> { (self % rhs == 0).then(|| self / rhs) }
+}
+
+#[derive(Copy, Clone, Hash, Eq, PartialEq, Debug)]
+pub struct Vec2<T> {
+    pub x: T,
+    pub y: T,
+}
+
+impl<T> From<[T; 2]> for Vec2<T> {
+    fn from([x, y]: [T; 2]) -> Self { Self { x, y } }
+}
+
+impl<T> Vec2<T>
+where T: Mul<Output = T> + Sub<Output = T> + Copy
+{
+    pub fn cross_product(self, rhs: Self) -> T { self.x * rhs.y - self.y * rhs.x }
+}
+
+impl<T> AddAssign<T> for Vec2<T>
+where T: AddAssign + Copy
+{
+    fn add_assign(&mut self, rhs: T) {
+        self.x += rhs;
+        self.y += rhs;
     }
 }
