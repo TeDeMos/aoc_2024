@@ -1,8 +1,9 @@
+use std::cmp::Ordering;
 use std::fmt::Debug;
 use std::fs;
 use std::fs::File;
 use std::io::{BufRead as _, BufReader};
-use std::ops::{AddAssign, Mul, Sub};
+use std::ops::{AddAssign, Div, Mul, Sub};
 use std::str::FromStr;
 use std::str::pattern::Pattern;
 
@@ -92,10 +93,29 @@ impl<T> From<[T; 2]> for Vec2<T> {
     fn from([x, y]: [T; 2]) -> Self { Self { x, y } }
 }
 
+impl<T> From<Vec2<T>> for [T; 2] {
+    fn from(value: Vec2<T>) -> Self { [value.x, value.y] }
+}
+
+impl Vec2<i64> {
+    pub fn rem_euclid(self, other: Self) -> Self {
+        Self { x: self.x.rem_euclid(other.x), y: self.y.rem_euclid(other.y) }
+    }
+}
+
 impl<T> Vec2<T>
 where T: Mul<Output = T> + Sub<Output = T> + Copy
 {
     pub fn cross_product(self, rhs: Self) -> T { self.x * rhs.y - self.y * rhs.x }
+}
+
+impl<T> AddAssign for Vec2<T>
+where T: AddAssign
+{
+    fn add_assign(&mut self, rhs: Self) {
+        self.x += rhs.x;
+        self.y += rhs.y;
+    }
 }
 
 impl<T> AddAssign<T> for Vec2<T>
@@ -104,5 +124,28 @@ where T: AddAssign + Copy
     fn add_assign(&mut self, rhs: T) {
         self.x += rhs;
         self.y += rhs;
+    }
+}
+
+impl<T> Mul<T> for Vec2<T>
+where T: Mul + Copy
+{
+    type Output = Vec2<T::Output>;
+
+    fn mul(self, rhs: T) -> Self::Output { Vec2 { x: self.x * rhs, y: self.y * rhs } }
+}
+
+impl<T> Div<T> for Vec2<T>
+where T: Div + Copy
+{
+    type Output = Vec2<T::Output>;
+
+    fn div(self, rhs: T) -> Self::Output { Vec2 { x: self.x / rhs, y: self.y / rhs } }
+}
+
+impl<T> Vec2<T> 
+where T: Ord {
+    pub fn cmp_each(&self, other: &Self) -> Vec2<Ordering> {
+        Vec2 { x: self.x.cmp(&other.x), y: self.y.cmp(&other.y) }
     }
 }
