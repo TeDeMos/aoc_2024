@@ -98,7 +98,7 @@ impl<T> From<Vec2<T>> for [T; 2] {
 }
 
 impl Vec2<i64> {
-    pub fn rem_euclid(self, other: Self) -> Self {
+    pub const fn rem_euclid(self, other: Self) -> Self {
         Self { x: self.x.rem_euclid(other.x), y: self.y.rem_euclid(other.y) }
     }
 }
@@ -143,8 +143,9 @@ where T: Div + Copy
     fn div(self, rhs: T) -> Self::Output { Vec2 { x: self.x / rhs, y: self.y / rhs } }
 }
 
-impl<T> Vec2<T> 
-where T: Ord {
+impl<T> Vec2<T>
+where T: Ord
+{
     pub fn cmp_each(&self, other: &Self) -> Vec2<Ordering> {
         Vec2 { x: self.x.cmp(&other.x), y: self.y.cmp(&other.y) }
     }
