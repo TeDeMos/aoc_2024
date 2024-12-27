@@ -15,6 +15,7 @@ mod day18;
 mod day19;
 mod day20;
 mod day21;
+mod day22;
 mod day2;
 mod day3;
 mod day4;
@@ -30,4 +31,4 @@ use utils::{
     read_lines, read_numbers, read_string,
 };
 
-fn main() { day21::day21_b() }
+fn main() { day22::day22_b() }
