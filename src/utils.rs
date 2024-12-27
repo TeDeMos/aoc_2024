@@ -3,7 +3,7 @@ use std::fmt::Debug;
 use std::fs;
 use std::fs::File;
 use std::io::{BufRead as _, BufReader};
-use std::ops::{AddAssign, Div, Mul, Sub};
+use std::ops::{Add, AddAssign, Div, Mul, Sub};
 use std::str::FromStr;
 use std::str::pattern::Pattern;
 
@@ -89,6 +89,10 @@ pub struct Vec2<T> {
     pub y: T,
 }
 
+impl<T> Vec2<T> {
+    pub const fn new(x: T, y: T) -> Self { Self { x, y } }
+}
+
 impl<T> From<[T; 2]> for Vec2<T> {
     fn from([x, y]: [T; 2]) -> Self { Self { x, y } }
 }
@@ -149,4 +153,14 @@ where T: Ord
     pub fn cmp_each(&self, other: &Self) -> Vec2<Ordering> {
         Vec2 { x: self.x.cmp(&other.x), y: self.y.cmp(&other.y) }
     }
+}
+
+impl Vec2<usize> {
+    pub const fn up(self) -> Self { Self { x: self.x, y: self.y - 1 } }
+
+    pub const fn right(self) -> Self { Self { x: self.x + 1, y: self.y } }
+
+    pub const fn down(self) -> Self { Self { x: self.x, y: self.y + 1 } }
+
+    pub const fn left(self) -> Self { Self { x: self.x - 1, y: self.y } }
 }
