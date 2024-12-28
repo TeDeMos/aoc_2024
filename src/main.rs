@@ -1,4 +1,7 @@
-#![feature(impl_trait_in_assoc_type, iter_array_chunks, iter_map_windows, let_chains, pattern)]
+#![feature(
+    impl_trait_in_assoc_type, iter_array_chunks, iter_map_windows, iter_next_chunk, let_chains,
+    pattern
+)]
 #![warn(clippy::pedantic, clippy::nursery)]
 #![allow(dead_code)]
 
@@ -18,6 +21,7 @@ mod day20;
 mod day21;
 mod day22;
 mod day23;
+mod day24;
 mod day3;
 mod day4;
 mod day5;
@@ -32,4 +36,4 @@ use utils::{
     read_lines, read_numbers, read_string,
 };
 
-fn main() { day23::day23_b() }
+fn main() { day24::day24_b() }
